@@ -28,10 +28,15 @@ function UsersDAO(db) {
             user['email'] = email;
         }
 
-        // TODO: hw2.3
-        users.insert(user, function(err, inserted){
-            if(!err) err=null;
-           callback(err, inserted[0]);
+        users.insert(user, function (err, result) {
+            "use strict";
+
+            if (!err) {
+                console.log("Inserted new user");
+                return callback(null, result[0]);
+            }
+
+            return callback(err, null);
         });
     }
 
@@ -63,10 +68,7 @@ function UsersDAO(db) {
             }
         }
 
-        // TODO: hw2.3
-        users.findOne({'_id': username}, function(err, user){
-               validateUserDoc(err, user);
-        });
+        users.findOne({ '_id' : username }, validateUserDoc);
     }
 }
 
